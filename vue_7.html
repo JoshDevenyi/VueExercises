@@ -1,0 +1,97 @@
+<!DOCTYPE HTML>
+<html>
+	<head>
+	
+		<title>J1 Practice</title>
+		<script src="https://cdn.jsdelivr.net/npm/vue/dist/vue.js"></script>
+		<style>
+			.formfield{margin-bottom:20px;}
+			.matchTitle{font-weight: bold; text-decoration: underline;}
+		</style>
+	</head>
+	<body>
+	<p>Tournament Selection Problem from the <a href="https://cemc.uwaterloo.ca/contests/computing/2016/stage%201/juniorEn.pdf">J1 problem hosted by the CCC.</a></p>
+	<div id="app">
+		<div>
+			<div class="formfield" v-for="match in results">
+				
+				<span class="matchTitle" >Match {{match.number}}</span>
+
+				<br>
+
+				<label v-bind:for="'win' + match.number">W</label>
+				<input v-bind:name="'game' + match.number" type="radio" v-bind:id="'win' + match.number " value="Win" v-model="match.result">
+
+				<label v-bind:for="'lose' + match.number">L</label>
+				<input v-bind:name="'game' + match.number" type="radio" v-bind:id="'lose' + match.number" value="Lose" v-model="match.result">
+				
+
+			</div>
+		</div>
+
+		<p>You are in Group {{whatGroup}}</p>
+
+	</div>
+
+	
+	<script>
+	var app = new Vue({
+		el: '#app',
+		data:{
+
+			results:[
+
+				{ result: 'Undetermined', number: 1},
+				{ result: 'Undetermined', number: 2},
+				{ result: 'Undetermined', number: 3},
+				{ result: 'Undetermined', number: 4},
+				{ result: 'Undetermined', number: 5},
+				{ result: 'Undetermined', number: 6},
+
+			],
+
+			group:'Undetermined'
+			
+		},
+
+		computed:{
+			whatGroup:function(){
+
+				var winCount = 0;
+
+				for(let i = 0; i < this.results.length; i++){
+					if (this.results[i].result === 'Win'){
+						winCount = winCount + 1;						
+					}
+				}
+				if(winCount === 5 || winCount === 6){
+					return 1;
+				}
+				else if(winCount === 3 || winCount === 4){
+					return 2;
+				}
+				else if(winCount === 1 || winCount === 2){
+					return 3;
+				}
+				else{
+					return -1;
+				}
+			}
+		}
+	});
+	
+	</script>
+	<!--
+		v-model will allow you to quickly bind form elements to the data property.
+		Make sure to set a default value!
+		The Computed property can be used like data, except for values that are calculated from data properties.
+		In this example 'treat_total' is computed from data properties, and 'is_happy' is computed from 'treat_total'.
+		
+		ASYNCHRONOUS LEARNING EXERCISE : J1
+		- Find any J1 problem
+		- Imagine an interface that allows the user to enter data on the webpage
+		- Build using v-model and computed properties!
+	
+	-->
+	</body>
+</html>
